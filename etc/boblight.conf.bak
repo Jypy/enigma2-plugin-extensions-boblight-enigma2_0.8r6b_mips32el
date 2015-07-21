@@ -1,0 +1,310 @@
+####################################
+#                                  #
+#   Boblight Configuration file    #
+#                                  #
+####################################
+#
+#
+#
+# 
+# CHANNELS
+#
+# Channels is calculate by number of lights*3 
+#
+# 16 lights wil be 48 channels
+# 8  lights wil be 32 channels
+# 4  lights wil be 12  channels
+# 2  lights wil be 6  channels
+# and so on....
+#
+#############################################################################################
+#
+# TYPE
+#
+# Type can be:
+# karate, atmolight or momo
+# for more info, go to this link: http://code.google.com/p/boblight/wiki/boblightconf
+#
+#############################################################################################
+#
+# NICE LIGHTS CALCULATOR http://sanya.tarhelyszolgaltato.eu/
+#
+#############################################################################################
+
+
+[global]
+#interface	10.0.0.2
+#port		19333
+
+#########################################################
+#                                                       #
+#  Devices, Uncomment your device, And use only one !!  #
+#                                                       #
+#########################################################
+
+
+### >> Sedulight <<  ###
+
+#[device]
+#name		ambilight
+#output		/dev/ttyUSB0
+#channels	256
+#type		sedu
+#interval	20000
+#rate		500000
+#debug		off
+
+
+### >> Karatelight <<  ###
+
+#[device]
+#name 		 ambilight
+#output		 /dev/ttyUSB0
+#channels	 48
+#prefix          FF
+#rate             38400
+#debug		 off
+#type             karate 
+#interval         20000
+
+
+### >> Oktolight <<  ###
+
+#[device]
+#name 		 ambilight
+#output		 /dev/ttyUSB0
+#channels	 48
+#prefix           FF
+#rate             57600
+#debug		 off
+#type             karate 
+#interval         20000
+
+
+### >> Atmolight <<  ###
+
+#[device]
+#name 		 ambilight
+#output		 /dev/ttyUSB0
+#channels	 15
+#prefix          FF
+#rate            38400
+#debug		 off
+#type            atmo 
+#interval        20000
+
+
+### >> Adalight 25 lights <<  ###
+
+#[device]
+#name 		 ambilight
+#output		 /dev/ttyUSB0
+#channels	 75
+#prefix          41 64 61 00 18 4D
+#rate            115200
+#debug		 off
+#type            momo 
+#interval        20000
+#delayafteropen	 1000000
+
+### >> Adalight 50 lights <<  ###
+
+#[device]
+#name 		 ambilight
+#output		 /dev/ttyUSB0
+#channels	 150
+#prefix          41 64 61 00 31 64
+#rate            115200
+#debug		 off
+#type            momo 
+#interval        20000
+#delayafteropen	 1000000
+
+### >> dioder device from http://cauldrondevelopment.com/blog/2009/12/29/a-real-ikea-dioder-hack/ << ###
+
+#[device]
+#name            device1
+#output          /dev/ttyUSB0
+#channels        3
+#type            dioder
+#interval        20000
+#rate            38400
+
+###############################
+#                                                                                                                        
+#                      Light section                                                                                
+#                                                                                                                       
+###############################
+#
+# You can change this to your own setting, some people have crossed red and blue etc....
+# then you change the blue 0000FF to red FF0000 and red to 0000FF.
+#
+#   >> name
+#   Specifies the name of the color, this setting is mandatory and must be unique (you can't have two colors with the same name. 
+#
+#   >> rgb
+#   Specifies the rgb value of this color, this setting is mandatory, it's in RRGGBB hex format. 
+#
+#   >> gamma
+#   Specifies the gamma for this color, this setting is optional, the default is 1.0. 
+#
+#   >> adjust
+#   Specifies the adjust for this color, this setting is optional, the default is 1.0.
+#   This is a multiplier for the channel this color is on, the ranges goes from 0.0 to 1.0. 
+#
+#   >> blacklevel
+#   Specifies the blacklevel for this color, this setting is optional, the default is 0.0.
+#   This setting is a minimum value for the channel this color is on, the range goes from 0.0 to 1.0. 
+#
+
+[color]
+name            red
+rgb             FF0000
+blacklevel 0.1
+
+[color]
+name            green
+rgb             00FF00
+blacklevel 0.1
+
+[color]
+name            blue
+rgb             0000FF
+blacklevel 0.1
+
+
+#This conf is configured for 16 channels, each side have 4 lights, is 16. this wil be 16*3  = 48 channels.
+################# Left ########################
+[light]
+name            left1
+color           red     ambilight 1
+color           green   ambilight 2
+color           blue    ambilight 3
+hscan           0 25
+vscan           75.00 100
+
+[light]
+name            left2
+color           red     ambilight 4
+color           green   ambilight 5
+color           blue    ambilight 6
+hscan           0 25
+vscan           50.00 75.00
+
+[light]
+name            left3
+color           red     ambilight 7
+color           green   ambilight 8
+color           blue    ambilight 9
+hscan           0 25
+vscan           25.00 50.00
+
+[light]
+name            left4
+color           red     ambilight 10
+color           green   ambilight 11
+color           blue    ambilight 12
+hscan           0 25
+vscan           0 25.00
+
+################# Top ########################
+
+[light]
+name            top1
+color           red     ambilight 13
+color           green   ambilight 14
+color           blue    ambilight 15
+hscan           0 25.00
+vscan           0 30
+
+[light]
+name            top2
+color           red     ambilight 16
+color           green   ambilight 17
+color           blue    ambilight 18
+hscan           25.00 50.00
+vscan           0 30
+
+[light]
+name            top3
+color           red     ambilight 19
+color           green   ambilight 20
+color           blue    ambilight 21
+hscan           50.00 75.00
+vscan           0 30
+
+[light]
+name            top4
+color           red     ambilight 22
+color           green   ambilight 23
+color           blue    ambilight 24
+hscan           75.00 100.00
+vscan           0 30
+
+################# Right ########################
+
+[light]
+name            right1
+color           red     ambilight 25
+color           green   ambilight 26
+color           blue    ambilight 27
+hscan           75 100
+vscan           0 25.00
+
+[light]
+name            right2
+color           red     ambilight 28
+color           green   ambilight 29
+color           blue    ambilight 30
+hscan           75 100
+vscan           25.00 50.00
+
+[light]
+name            right3
+color           red     ambilight 31
+color           green   ambilight 32
+color           blue    ambilight 33
+hscan           75 100
+vscan           50.00 75.00
+
+[light]
+name            right4
+color           red     ambilight 34
+color           green   ambilight 35
+color           blue    ambilight 36
+hscan           75 100
+vscan           75.00 100.00
+
+################# Bottom ########################
+
+[light]
+name            bottom1
+color           red     ambilight 37
+color           green   ambilight 38
+color           blue    ambilight 39
+hscan           75.00 100
+vscan           70 100
+
+[light]
+name            bottom2
+color           red     ambilight 40
+color           green   ambilight 41
+color           blue    ambilight 42
+hscan           50.00 75.00
+vscan           70 100
+
+[light]
+name            bottom3
+color           red     ambilight 43
+color           green   ambilight 44
+color           blue    ambilight 45
+hscan           25.00 50.00
+vscan           70 100
+
+[light]
+name            bottom4
+color           red     ambilight 46
+color           green   ambilight 47
+color           blue    ambilight 48
+hscan           0 25.00
+vscan           70 100

@@ -1,0 +1,36 @@
+#!/bin/sh
+echo ""
+echo "Check if boblightd or boblight-enigma2 is running..."
+echo ""
+DPID=`pidof boblightd|head -n1`
+
+if [ ${DPID} ]; then
+	echo "Boblightd: running with PID ${DPID}, Exit..."
+	kill -9 ${DPID} 2>/dev/null
+else
+	echo "Boblightd: not running"
+fi
+
+EPID=`pidof boblight-enigma2|head -n1`
+
+if [ ${EPID} ]; then
+	echo "Boblight-enigma2: running with PID ${EPID}, Exit..."
+	kill -9 ${EPID} 2>/dev/null
+else
+	echo "Boblight-enigma2: not running"
+fi
+echo ""
+
+if [ -f /etc/rc3.d/S99boblight ];
+then
+    rm /etc/rc3.d/S99boblight
+fi
+
+rm -f /etc/init.d/boblight-control 2>/dev/null
+rm -f /etc/init.d/boblight-test 2>/dev/null
+rm -fR /usr/lib/enigma2/python/Plugins/Extensions/Boblight-enigma2 2>/dev/null
+rm -f /usr/lib/libboblight.so 2>/dev/null
+rm -f /usr/bin/boblightd 2>/dev/null
+rm -f /usr/bin/boblight-enigma2 2>/dev/null
+rm -fR /home/boblight-addons 2>/dev/null
+exit 0

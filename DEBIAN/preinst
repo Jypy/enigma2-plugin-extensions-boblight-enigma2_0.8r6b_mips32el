@@ -1,0 +1,49 @@
+#/bin/sh
+mkdir -p /home/boblight-addons > /dev/null
+mkdir -p /home/boblight-addons/profiles > /dev/null
+echo ""
+echo "Check if boblightd or boblight-enigma2 is running..."
+echo ""
+
+EPID=`pidof boblight-enigma2|head -n1`
+
+if [ ${EPID} ]; then
+	echo "Boblight-enigma2: running with PID ${EPID}, Exit..."
+	kill -9 ${EPID} 2>/dev/null
+else
+	echo "Boblight-enigma2: not running"
+fi
+
+DPID=`pidof boblightd|head -n1`
+
+if [ ${DPID} ]; then
+	echo "Boblightd: running with PID ${DPID}, Exit..."
+	kill -9 ${DPID} 2>/dev/null
+else
+	echo "Boblightd: not running"
+fi
+
+
+echo ""
+
+FILE=/etc/boblight.conf
+FILE2=/usr/lib/enigma2/python/Plugins/Extensions/Boblight-enigma2/profiles/custom_0.profile
+
+if [ -f $FILE ]; then
+   echo "File $FILE exists"   
+   mv /etc/boblight.conf /home/boblight-addons/boblight.conf
+   echo "Backup created in /home/boblight-addons"   
+else
+   echo "File $FILE does not exist in /etc/"
+fi
+
+if [ -f $FILE2 ]; then
+   echo "Profiles exists, backup created in /home/boblight-addons/profiles"
+   cp /usr/lib/enigma2/python/Plugins/Extensions/Boblight-enigma2/profiles/*.profile /home/boblight-addons/profiles/
+fi
+
+rm -fr /usr/lib/enigma2/python/Plugins/Extensions/Boblight-enigma2/ 
+rm -f /etc/init.d/boblight*
+rm -f /usr/lib/libboblight*
+rm -f /usr/bin/boblight*
+exit 0

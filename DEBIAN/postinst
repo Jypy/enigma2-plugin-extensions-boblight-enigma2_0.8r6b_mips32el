@@ -1,0 +1,148 @@
+#!/bin/sh
+
+
+FILE=/home/boblight-addons/boblight.conf
+FILE2=/home/boblight-addons/profiles/custom_0.profile
+
+if grep -qs 'duo' cat /proc/stb/info/vumodel  ; then
+    echo "Found VU+DUO, Supported"
+    cd /
+    tar -xzvf /home/boblight-addons/boblight-default.tar.gz > /dev/null
+    
+elif grep -qs 'uno' cat /proc/stb/info/vumodel  ; then
+    echo "Found VU+UNO, Supported"
+    cd /
+    tar -xzvf /home/boblight-addons/boblight-default.tar.gz > /dev/null
+    
+elif grep -qs 'ultimo' cat /proc/stb/info/vumodel  ; then
+    echo "Found VU+ULTIMO, Supported"
+    cd /
+    tar -xzvf /home/boblight-addons/boblight-default.tar.gz > /dev/null
+    
+elif grep -qs 'solo' cat /proc/stb/info/vumodel  ; then
+    echo "Found VU+SOLO, Supported"
+    cd /
+    tar -xzvf /home/boblight-addons/boblight-default.tar.gz > /dev/null
+    
+elif grep -qs 'bm750' /usr/lib/ipkg/info/kernel-2* ; then
+    echo "Found BM750/VU+DUO, Supported"
+    cd /
+    tar -xzvf /home/boblight-addons/boblight-default.tar.gz > /dev/null
+    
+elif grep -qs 'et9000' cat /proc/stb/info/boxtype  ; then
+    echo "Found ET9000, Supported"
+    cd /
+    tar -xzvf /home/boblight-addons/boblight-default.tar.gz > /dev/null
+    
+elif grep -qs 'et9200' cat /proc/stb/info/boxtype  ; then
+    echo "Found ET9200, Supported"
+    cd /
+    tar -xzvf /home/boblight-addons/boblight-default.tar.gz > /dev/null
+    
+elif grep -qs 'et5000' cat /proc/stb/info/boxtype  ; then
+    echo "Found ET5000, Supported"
+    cd /
+    tar -xzvf /home/boblight-addons/boblight-default.tar.gz > /dev/null
+    
+elif grep -qs 'et9500' cat /proc/stb/info/boxtype  ; then
+    echo "Found ET9500, Supported"
+    cd /
+    tar -xzvf /home/boblight-addons/boblight-default.tar.gz > /dev/null
+
+elif grep -qs 'et4000' cat /proc/stb/info/boxtype  ; then
+    echo "Found ET4000, Supported"
+    cd /
+    tar -xzvf /home/boblight-addons/boblight-default.tar.gz > /dev/null    #softfloat
+    
+elif grep -qs 'dm800se' /proc/stb/info/model ; then
+    echo "Found DM800se, Supported"
+    cd /
+    tar -xzvf /home/boblight-addons/boblight-default.tar.gz > /dev/null
+    
+elif grep -qs 'dm500hd' /proc/stb/info/model ; then
+    echo "Found DM500HD, Supported"
+    cd /
+    tar -xzvf /home/boblight-addons/boblight-default.tar.gz > /dev/null
+    
+elif grep -qs 'dm500hdv2' /proc/stb/info/model ; then
+    echo "Found DM500HDV2, Supported"
+    cd /
+    tar -xzvf /home/boblight-addons/boblight-default.tar.gz > /dev/null
+    
+elif grep -qs 'dm7020hd' cat /proc/stb/info/model  ; then
+    echo "Found DM7020HD, Supported"
+    cd /
+    tar -xzvf /home/boblight-addons/boblight-default.tar.gz > /dev/null
+    
+elif grep -qs 'dm8000' /proc/stb/info/model ; then
+    echo "Found DM8000HD, Supported"
+    cd /
+    tar -xzvf /home/boblight-addons/boblight-default.tar.gz > /dev/null
+    
+elif grep -qs 'dm800' /proc/stb/info/model ; then
+    echo "Found DM800HD, Supported"
+    cd /
+    tar -xzvf /home/boblight-addons/boblight-dm800.tar.gz > /dev/null
+    
+elif grep -qs 'dm800sev2' /proc/stb/info/model ; then
+    echo "Found DM800HDsev2, Supported"
+    cd /
+    tar -xzvf /home/boblight-addons/boblight-dm800.tar.gz > /dev/null
+    
+elif grep -qs 'gigablue' cat /proc/stb/info/boxtype  ; then
+    echo "Found GigaBlue, Supported"
+    cd /
+    tar -xzvf /home/boblight-addons/boblight-default.tar.gz > /dev/null
+else
+	echo "No supported box found! Plugin will be removed from flash..."
+	opkg remove enigma2-plugin-extensions-boblight
+	exit 1
+fi
+
+if [ -f $FILE ];
+then
+   mv /home/boblight-addons/boblight.conf /etc/boblight.conf
+   echo "Config boblight.conf restored from backup..."
+fi
+
+if [ -f $FILE2 ];
+then
+   cd /
+   rm /usr/lib/enigma2/python/Plugins/Extensions/Boblight-enigma2/profiles/*.profile
+   cp /home/boblight-addons/profiles/*.profile /usr/lib/enigma2/python/Plugins/Extensions/Boblight-enigma2/profiles/
+   echo "Profiles restored from backup..."
+fi
+
+echo "Configuring Boblight..."
+
+echo "Reload udev rules..."
+udevadm control --reload-rules 1>/dev/null 2>/dev/null
+udevadm control --reload_rules 1>/dev/null 2>/dev/null
+	
+echo "Set permissions..."
+chmod +x /etc/init.d/boblight* 1>/dev/null
+chmod +x /usr/bin/boblight* 1>/dev/null
+
+echo "Remove temp files..."
+rm -rf /DEBIAN 1>/dev/null
+
+#Fix for libpng15
+if [ ! -f /usr/lib/libpng15.so.15 ]; then
+	ln -s libpng15.so.15.14.0 /usr/lib/libpng15.so.15
+fi
+sleep 1
+echo
+echo
+echo "#####################  Boblight installed... #######################"
+echo
+echo "You can now use the Plugin."
+echo "Please RESTART Enigma2 or REBOOT box to activate the GUI."
+echo "don't forget to create a configuration file."
+echo
+echo
+echo "For samplefiles look in /home/boblight-addons/"
+echo 
+echo "####################################################################"
+echo
+
+exit 0
